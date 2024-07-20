@@ -1,0 +1,52 @@
+# Node modules directory
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Temporary files
+*.swp
+*.swo
+
+# Build output
+dist/
+build/
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# MacOS Finder directory attributes
+.DS_Store
+
+# Linux directory attributes
+.directory
+
+# Windows thumbnail cache
+Thumbs.db
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Miscellaneous
+*.tgz
+*.zip
+*.rar
+
+# Audio files and temporary files
+*.mp3
+*.wav
+temp/

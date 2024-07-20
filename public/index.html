@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MP3 Downloader Extravaganza!</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2 class="title">🎉 MP3 Downloader Extravaganza! 🎉</h2>
+
+    <label for="wordInput">Enter words (comma-separated):</label><br>
+    <input type="text" id="wordInput" placeholder="e.g., amazing,words,here"><br>
+    
+    <button onclick="downloadMP3s()">Download MP3s</button>
+
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <div class="loading-message">Hold on tight! We’re fetching your MP3s...</div>
+    </div>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    async function downloadMP3s() {
+      const wordInput = document.getElementById('wordInput');
+      const words = wordInput.value.trim().split(',');
+      const resultsDiv = document.getElementById('results');
+      const loadingDiv = document.getElementById('loading');
+
+      // Show loading message and hide results area
+      loadingDiv.style.display = 'block';
+      resultsDiv.style.display = 'none';
+      resultsDiv.innerHTML = '';
+
+      try {
+        const responses = await Promise.all(words.map(async (word) => {
+          const response = await fetch(`http://localhost:3000/fetch?words=${word.trim()}`);
+          const text = await response.text();
+          return { word: word.trim(), text };
+        }));
+
+        // Hide loading message and show results area
+        loadingDiv.style.display = 'none';
+        resultsDiv.style.display = 'block';
+
+        // Display results
+        responses.forEach(({ word, text }) => {
+          let message;
+          try {
+            const parsedText = JSON.parse(text);
+            if (parsedText.files.length === 0) {
+              message = `<span class="error">Oops! We couldn't find or download an MP3 for "${word}". Please try another word.</span>`;
+            } else {
+              const fileList = parsedText.files.join('<br>');
+              message = `<span class="success">🎉 Success! MP3 for "${word}" is ready. Check your downloads folder!<br>Downloaded to: <b>${fileList}</b></span>`;
+            }
+          } catch (e) {
+            message = `<span class="error">Oops! An error occurred while processing the MP3 for "${word}". Please try again.</span>`;
+          }
+          resultsDiv.innerHTML += message;
+        });
+      } catch (error) {
+        console.error('Error during fetching MP3s:', error);
+        resultsDiv.innerHTML = '<span class="error">An unexpected error occurred. Please try again later.</span>';
+        loadingDiv.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "audiograbber",
+  "version": "1.0.0",
+  "description": "A Node.js application for fetching and converting dictionary words to MP3.",
+  "main": "audioGrabberServer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon audioGrabberServer.js",
+    "public": "lt --port 3000"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
